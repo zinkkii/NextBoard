@@ -8,9 +8,10 @@ const pool = createPool({
   port: 3306,
 });
 
-pool.getConnection((err) => {
+pool.getConnection((err, conn) => {
   if (err) console.log("Error connecting to db...");
   else console.log("Connected to db...!");
+  conn.release();
 });
 
 const executeQuery = (query, arrParams) => {

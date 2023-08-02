@@ -1,17 +1,12 @@
 import { executeQuery } from "../lib/db";
+import ListItem from "./ListItem";
 
 export default async function List() {
-  let getdata = await executeQuery("SELECT * FROM board", []);
-
+  let data = await executeQuery("SELECT * FROM board", []);
+  let getdata = JSON.parse(JSON.stringify(data));
   return (
     <div className="list-bg">
-      {getdata.map((board, i) => {
-        return (
-          <div className="list-item" key={i}>
-            <p>{board.board_title}</p>
-          </div>
-        );
-      })}
+      <ListItem getdata={getdata} />
     </div>
   );
 }
