@@ -19,14 +19,17 @@ export default function DetailLink(props) {
             </a>
           </h4>
         </div>
-        <div
-          style={{ cursor: "pointer " }}
-          onClick={() => {
-            router.push(`/edit/${props.board_id}`);
-          }}
-        >
-          ✏️
-        </div>
+        {props.session != null &&
+        props.session.user.email === props.board_user_id ? (
+          <div
+            style={{ cursor: "pointer " }}
+            onClick={() => {
+              router.push(`/edit/${props.board_id}`);
+            }}
+          >
+            ✏️
+          </div>
+        ) : null}
       </div>
     </>
   );

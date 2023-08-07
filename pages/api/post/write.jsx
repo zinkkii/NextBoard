@@ -1,7 +1,14 @@
 import { executeQuery } from "@/app/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req, res) {
   if (req.method == "POST") {
+    const session = await getServerSession(req, res, authOptions);
+    if (session) {
+      req.body.user_id = session.user.email;
+    }
+    console.log(req.body.user_id);
     var sql =
       "INSERT INTO board(board_title, board_content, board_user_id) VALUES(?,?,?)";
     console.log(req.body);

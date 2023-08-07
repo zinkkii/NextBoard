@@ -2,10 +2,8 @@
 import moment from "moment";
 import DetailLink from "./DetailLink";
 import axios from "axios";
-import { useState } from "react";
 
-export default function ListItem({ getdata }) {
-  const [fade, setFade] = useState(true);
+export default function ListItem({ getdata, session }) {
   const clickDelete = (e, idx) => {
     console.log(idx);
 
@@ -15,7 +13,10 @@ export default function ListItem({ getdata }) {
         .post("/api/post/delete", { idx })
         .then((res) => {
           console.log(res.data);
-          e.target.parentElement.parentElement.style.display = "none";
+          e.target.parentElement.parentElement.style.opacity = 0;
+          setTimeout(() => {
+            e.target.parentElement.parentElement.style.display = "none";
+          }, 1000);
         })
         .catch((err) => console.log(err));
     } else {
@@ -26,10 +27,12 @@ export default function ListItem({ getdata }) {
     <>
       {getdata.map((board, i) => {
         return (
-          <div className="list-item" id="list-item" key={i}>
+          <div className="list-item" key={i}>
             <DetailLink
               board_id={board.board_id}
               board_title={board.board_title}
+              board_user_id={board.board_user_id}
+              session={session}
             />
             <p>{board.board_content}</p>
             <p>by. {board.board_user_id}</p>
@@ -40,14 +43,17 @@ export default function ListItem({ getdata }) {
                 수정된 글입니다.
               </p>
             )}
-            <p className="trashstyle">
-              <a
-                style={{ cursor: "pointer" }}
-                onClick={(e) => clickDelete(e, board.board_id)}
-              >
-                🗑️삭제
-              </a>
-            </p>
+
+            {session != null && session.user.email === board.board_user_id ? (
+              <p className="trashstyle">
+                <a
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => clickDelete(e, board.board_id)}
+                >
+                  🗑️삭제
+                </a>
+              </p>
+            ) : null}
           </div>
         );
       })}

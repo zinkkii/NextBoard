@@ -61,7 +61,7 @@ button {
   margin-top: 20px;
   padding-top: 20px;
 }
-#list-item {
+.list-item {
   opacity: 1;
-  transition: all 1s;
+  transition: 1s ease-out;
 }

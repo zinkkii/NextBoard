@@ -9,13 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next-auth/typeorm-adapter": "^0.0.1",
+    "@next-auth/typeorm-legacy-adapter": "^2.0.2",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
+    "fs": "^0.0.1-security",
     "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "mysql2": "^3.5.1",
+    "net": "^1.0.2",
     "next": "13.4.10",
+    "next-auth": "^4.22.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "tls": "^0.0.1",
+    "typeorm": "^0.3.17"
   }
 }
