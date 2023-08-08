@@ -6,11 +6,11 @@ import { executeQuery } from "@/app/lib/db";
 export const authOptions = {
   providers: [
     GithubProvider({
-      clientId: "b5dc57e7b744e37a18b4",
-      clientSecret: "bb69bbcf507310c8f8dbddc0cbbc52208f1279e0",
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
     }),
   ],
-  secret: "ZWebSecretNumber1223334444555554444333221@#@#^^",
+  secret: process.env.SECRET,
   adapter: TypeORMLegacyAdapter({
     type: "mysql",
     username: process.env.DB_USER,
