@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { TypeORMLegacyAdapter } from "@next-auth/typeorm-legacy-adapter";
-import { executeQuery } from "@/app/lib/db";
 
 export const authOptions = {
   providers: [
