@@ -3,7 +3,7 @@ import aws from "aws-sdk";
 export default async function handler(req, res) {
   if (req.method == "POST") {
     console.log("/api/post/image ----- filename : " + req.body.filename);
-    console.log(req.query.file);
+    const filename = req.body.filename;
     //setting
     aws.config.update({
       accessKeyId: process.env.ACCESS_KEY,
@@ -14,14 +14,18 @@ export default async function handler(req, res) {
 
     //presignedURL 발급
     const s3 = new aws.S3();
-    const url = s3.createPresignedPost({
+    const params = {
       Bucket: process.env.BUCKET_NAME,
-      Fields: { key: req.body.filename },
-      Expires: 60, //seconds
-      Conditions: [
-        ["content-length-range", 0, 1048576], //파일용량 1MB 까지 제한
-      ],
+      Key: `${filename}`,
+      Expires: 300,
+      ContentType: "image/*",
+    };
+    s3.getSignedUrl("putObject", params, function (err, url) {
+      if (err) {
+        console.log("getSignedURL ERROR------!");
+        return console.log(err);
+      }
+      res.status(200).json(url);
     });
-    res.status(200).json(url);
   }
 }

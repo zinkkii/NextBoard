@@ -1,7 +1,11 @@
 "use client";
+
 import axios from "axios";
+import { useState } from "react";
 
 export default function ImageUpload() {
+  const [src, setSrc] = useState("");
+
   return (
     <>
       <input
@@ -10,24 +14,31 @@ export default function ImageUpload() {
         onChange={async (e) => {
           let file = e.target.files[0];
           let filename = encodeURIComponent(file.name);
-          console.log(filename);
-          axios
-            .post("/api/post/image", { filename })
+          await axios
+            .post("/api/post/image", { filename: filename })
             .then((res) => {
-              console.log(res);
-              const formData = new FormData();
-              Object.entries({ ...res.fields, file }).forEach(
-                ([key, value]) => {
-                  formData.append(key, value);
-                }
-              );
-              axios.post(res.url, { formData }).then((res) => {
-                console.log(res);
-              });
+              const presignedUrl = res.data;
+              console.log(presignedUrl);
+              uploadImageToS3(presignedUrl, file);
             })
-            .catch((err) => console.log(err));
+            .catch((error) => console.log(error));
         }}
       />
     </>
   );
+}
+
+function uploadImageToS3(url, file) {
+  console.log(url);
+  console.log(file);
+  axios
+    .put(url, file)
+    .then((res) => {
+      console.log("uploadImageToS3 -----------------");
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log("uploadImageToS3 Error-------------");
+      console.log(err);
+    });
 }

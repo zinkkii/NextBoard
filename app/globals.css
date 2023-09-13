@@ -37,6 +37,10 @@ body {
   margin-right: 10px;
   text-decoration: none;
 }
+.navbar h4 {
+  color: #222;
+}
+
 .p-20 {
   padding: 20px;
 }
@@ -64,4 +68,14 @@ button {
 .list-item {
   opacity: 1;
   transition: 1s ease-out;
+}
+
+.dark-mode .navbar {
+  background: #222;
+}
+.dark-mode .navbar a {
+  color: white;
+}
+.dark-mode .navbar h4 {
+  color: white;
 }
